@@ -21,7 +21,7 @@ apps:
     plugs: [network]
   nats-top:
     command: bin/nats-top
-    plugs: [network]    
+    plugs: [network]
 
 parts:
   server:
@@ -36,10 +36,13 @@ parts:
     plugin: go
     source: https://github.com/nats-io/natscli.git
     source-tag: v0.2.4
+    override-pull: |
+      craftctl default
+      rm -rf nats/tests
   top:
     plugin: go
     source: https://github.com/nats-io/nats-top.git
-    source-tag: v0.6.3   
+    source-tag: v0.6.3
   overlay:
     plugin: dump
     source: overlay
