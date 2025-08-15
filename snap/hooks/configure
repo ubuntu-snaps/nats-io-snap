@@ -1,0 +1,25 @@
+#!/bin/sh -e
+
+if [ -z "$(snapctl get http-port)" ]; then
+	snapctl set http-port="8222";
+fi
+
+if [ -z "$(snapctl get jetstream.max-mem)" ]; then
+	snapctl set jetstream.max-mem="1G";
+fi
+
+if [ -z "$(snapctl get jetstream.max-file)" ]; then
+	snapctl set jetstream.max-file="10G";
+fi
+
+cat > $SNAP_DATA/nats-server.conf <<EOF
+log_file: $SNAP_DATA/nats-server.log
+http_port: $(snapctl get http-port)
+jetstream {
+  store_dir: $SNAP_DATA/store
+  max_mem: $(snapctl get jetstream.max-mem)
+  max_file: $(snapctl get jetstream.max-file)
+}
+EOF
+
+snapctl restart "$SNAP_INSTANCE_NAME"
