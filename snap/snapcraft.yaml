@@ -19,6 +19,9 @@ apps:
   nats:
     command: bin/nats
     plugs: [network]
+  nats-top:
+    command: bin/nats-top
+    plugs: [network]    
 
 parts:
   server:
@@ -33,6 +36,10 @@ parts:
     plugin: go
     source: https://github.com/nats-io/natscli.git
     source-tag: v0.2.4
+  top:
+    plugin: go
+    source: https://github.com/nats-io/nats-top.git
+    source-tag: v0.6.3   
   overlay:
     plugin: dump
     source: overlay
