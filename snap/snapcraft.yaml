@@ -16,6 +16,9 @@ apps:
     command: bin/nats-server -c $SNAP_DATA/nats-server.conf
     daemon: simple
     plugs: [network, network-bind]
+  nats:
+    command: bin/nats
+    plugs: [network]
 
 parts:
   server:
@@ -26,6 +29,10 @@ parts:
     #   - GOPROXY: https://proxy.golang.com.cn,direct
     build-snaps:
       - go
+  cli:
+    plugin: go
+    source: https://github.com/nats-io/natscli.git
+    source-tag: v0.2.4
   overlay:
     plugin: dump
     source: overlay
