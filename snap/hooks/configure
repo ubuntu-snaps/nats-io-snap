@@ -20,6 +20,18 @@ if [ -z "$(snapctl get jetstream.max-file)" ]; then
 	snapctl set jetstream.max-file="10G";
 fi
 
+if [ -z "$(snapctl get auth.token)" ]; then
+	snapctl set auth.token="";
+fi
+
+if [ -z "$(snapctl get auth.username)" ]; then
+	snapctl set auth.username="";
+fi
+
+if [ -z "$(snapctl get auth.password)" ]; then
+	snapctl set auth.password="";
+fi
+
 cat > $SNAP_DATA/nats-server.conf <<EOF
 host: $(snapctl get host)
 port: $(snapctl get port)
@@ -29,6 +41,11 @@ jetstream {
   store_dir: $SNAP_DATA/store
   max_mem: $(snapctl get jetstream.max-mem)
   max_file: $(snapctl get jetstream.max-file)
+}
+authorization {
+  token: "$(snapctl get auth.token)"
+  username: "$(snapctl get auth.username)"
+  password: "$(snapctl get auth.password)"
 }
 EOF
 
