@@ -1,5 +1,13 @@
 #!/bin/sh -e
 
+if [ -z "$(snapctl get host)" ]; then
+	snapctl set host="0.0.0.0";
+fi
+
+if [ -z "$(snapctl get port)" ]; then
+	snapctl set port="4222";
+fi
+
 if [ -z "$(snapctl get http-port)" ]; then
 	snapctl set http-port="8222";
 fi
@@ -13,8 +21,10 @@ if [ -z "$(snapctl get jetstream.max-file)" ]; then
 fi
 
 cat > $SNAP_DATA/nats-server.conf <<EOF
-log_file: $SNAP_DATA/nats-server.log
+host: $(snapctl get host)
+port: $(snapctl get port)
 http_port: $(snapctl get http-port)
+log_file: $SNAP_DATA/nats-server.log
 jetstream {
   store_dir: $SNAP_DATA/store
   max_mem: $(snapctl get jetstream.max-mem)
