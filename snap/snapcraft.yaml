@@ -24,6 +24,12 @@ apps:
   nats-top:
     command: bin/nats-top
     plugs: [network]
+  heartbeat:
+    command: bin/heartbeat.sh
+    daemon: simple
+    restart-condition: always
+    restart-delay: 60s
+    plugs: [network]
 
 parts:
   server:
