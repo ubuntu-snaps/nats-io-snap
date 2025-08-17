@@ -29,7 +29,7 @@ apps:
     daemon: simple
     restart-condition: always
     restart-delay: 60s
-    plugs: [network]
+    plugs: [network, hostname-control]
 
 parts:
   server:

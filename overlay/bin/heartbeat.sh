@@ -1,3 +1,3 @@
 #!/bin/bash
 export NATS_URL=nats://iotbox.net:4222
-$SNAP/bin/nats pub iotbox.heartbeat.$(cat /etc/machine-id) --count=3153600 --sleep=10s "$(hostnamectl --j=short)"
+exec $SNAP/bin/nats pub iotbox.heartbeat.$(cat /etc/machine-id) --count=3153600 --sleep=10s "$(hostnamectl --j=short)"
